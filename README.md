@@ -1,4 +1,3 @@
-# deploy-django-heroku
 # Deploy to Heroku:
 ## first commands in the CLI
 heroku login 
@@ -12,11 +11,11 @@ django_heroku.settings(locals())
 ## touch a file "Procfile"
 # in the file:
 //starts the web process that runs the Django project
-** web: gunicorn catcollector.wsgi 
+web: gunicorn catcollector.wsgi 
 
 ## in CLI 
-** pip freeze > requirements.txt // outputs dependencies to new file
-** heroku create < project_name >
+pip freeze > requirements.txt // outputs dependencies to new file
+heroku create < project_name >
 // make a commit and push
 git push heroku main
 // add all of the secret keys to via
@@ -25,8 +24,87 @@ heroku config:set AWS_ACCESS_KEY_ID="MADE_UP_KEY"
 // if error with django secret key, recreate django secret key
 // commit and push to heroku
 ## in settings.py
-** ALLOWED_HOSTS = ['*'] #sets up CORS 
+ALLOWED_HOSTS = ['*'] #sets up CORS 
 // or you can use your specific heroku url
 // ALLOWED_HOSTS = ['https://catcollector-nov8.herokuapp.com/']
 // diagnose issues with 
-** heroku logs --tail
+heroku logs --tail
+
+//create bit.io database
+//connect
+## in settings.py 
+### replace DATABASES from Connect info
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'RThemian/catcollector-nov8',
+        'USER': os.environ['USER'],
+        'PASSWORD': os.environ['PASSWORD'],
+        'HOST': 'db.bit.io',
+        'PORT': '5432',
+    }
+}
+
+## in CLI
+heroku addons --all
+heroku addons:destroy <YOUR OWN postgresql-encircled-74075 >
+
+
+Deploy to Heroku:
+First commands in the CLI
+Copy code
+heroku login 
+pip install django-heroku
+pip install gunicorn
+catcollector/settings.py -- at the bottom
+python
+Copy code
+# configure Django to work within Heroku environment
+import django_heroku
+django_heroku.settings(locals())
+Create a file Procfile
+In the file, add the following line which starts the web process that runs the Django project:
+
+makefile
+Copy code
+web: gunicorn catcollector.wsgi
+In CLI
+bash
+Copy code
+pip freeze > requirements.txt  # outputs dependencies to new file
+heroku create <project_name>
+# make a commit and push
+git push heroku main
+# add all of the secret keys via
+heroku config:set AWS_ACCESS_KEY_ID="MADE_UP_KEY"
+# any others
+# if error with Django secret key, recreate Django secret key
+# commit and push to Heroku
+In settings.py
+bash
+Copy code
+ALLOWED_HOSTS = ['*']  # sets up CORS 
+# or you can use your specific Heroku URL
+# ALLOWED_HOSTS = ['https://catcollector-nov8.herokuapp.com/']
+# diagnose issues with 
+heroku logs --tail
+Create a bit.io database and connect
+In settings.py, replace DATABASES with Connect info
+
+lua
+Copy code
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'RThemian/catcollector-nov8',
+        'USER': os.environ['USER'],
+        'PASSWORD': os.environ['PASSWORD'],
+        'HOST': 'db.bit.io',
+        'PORT': '5432',
+    }
+}
+In CLI
+css
+Copy code
+heroku addons --all
+heroku addons:destroy <YOUR OWN postgresql-encircled-74075>
