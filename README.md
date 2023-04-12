@@ -46,5 +46,5 @@ DATABASES = {
 }
 
 ## in CLI
-heroku addons --all
-heroku addons:destroy <YOUR OWN postgresql-encircled-74075 >
+1. heroku addons --all
+2. heroku addons:destroy <YOUR OWN postgresql-encircled-74075 >
