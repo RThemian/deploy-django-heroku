@@ -15,7 +15,7 @@
 
 ## in CLI 
 1. pip freeze > requirements.txt // outputs dependencies to new file
-2 .heroku create < project_name >
+2. heroku create < project_name >
 // make a commit and push
 3. git push heroku main
 // add all of the secret keys to via
